@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${post.name}">Объявление</title>
+    <link th:href="@{/common.css}"
+          rel="stylesheet"
+          type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-start flex-column">
+        <div class="d-flex justify-content-center">
+            <div th:object="${post}">
+                <table class="table">
+                    <tr>
+                        <td>Название</td>
+                        <td th:text="*{name}"></td>
+                    </tr>
+                    <tr>
+                        <td>Описание</td>
+                        <td th:text="*{description}"></td>
+                    </tr>
+                    <tr>
+                        <td>Цена</td>
+                        <td th:text="*{price}"></td>
+                    </tr>
+                    <tr>
+                        <td>Залог</td>
+                        <td th:text="*{pledge}"></td>
+                    </tr>
+                    <tr>
+                        <td>Тип объекта</td>
+                        <td th:text="*{property.type.name}"></td>
+                    </tr>
+                    <tr>
+                        <td>Площадь</td>
+                        <td th:text="*{property.area}"></td>
+                    </tr>
+                    <tr>
+                        <td>Можно ли с детьми</td>
+                        <td th:unless="${post?.allowedChildren}">Нельзя</td>
+                        <td th:if="${post?.allowedChildren}" th:text="*{allowedChildren} ? 'Да' : 'Нет'"></td>
+                    </tr>
+                    <tr>
+                        <td>Можно ли с животными</td>
+                        <td th:unless="${post?.allowedAnimals}">Нельзя</td>
+                        <td th:if="${post?.allowedAnimals}" th:text="*{allowedAnimals} ? 'Да' : 'Нет'"></td>
+                    </tr>
+                    <tr>
+                        <td>Длительность</td>
+                        <td th:text="*{plan.name}"></td>
+                    </tr>
+                    <tr>
+                        <td>Почта владельца</td>
+                        <td th:text="*{owner.email}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') or postOwner}" class="d-flex justify-content-center pt-2">
+            <a class="btn btn-outline-primary" th:href="@{/post/{postId}/edit(postId=${post.id})}">Редактировать</a>
+        </div>
+        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')') or postOwner}" class="d-flex justify-content-center pt-2">
+            <form th:method="POST" th:action="@{/post/{postId}/delete(postId=${post.id})}">
+                <input class="btn btn-outline-danger" type="submit" name="delete" value="Удалить"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

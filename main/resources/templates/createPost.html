@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание объявления</title>
+    <link th:href="@{/common.css}"
+          rel="stylesheet"
+          type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div th:insert="fragments/header :: header"></div>
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-start flex-column">
+            <div class="d-flex justify-content-center">
+                <p class="fs-3">Новое объявление</p>
+            </div>
+            <form th:action="@{/post/create}" th:method="POST" th:object="${propertyForm}">
+                <div th:object="${postForm}">
+                    <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                        <label for="name">Название</label>
+                        <input id="name" type="text" th:name="name"  th:value="*{name}"/>
+                    </div>
+
+                    <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                        <label for="description">Описание</label>
+                        <textarea id="description" type="text" th:name="description"  th:value="*{description}"></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                        <label class="fs-8 text-black" for="price">Цена</label>
+                        <input style="width: 90%" type="number" id="price" th:name="price" th:value="*{price}"/>
+                    </div>
+
+                    <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                        <label class="fs-8 text-black" for="pledge">Залог</label>
+                        <input style="width: 90%" type="number" id="pledge" th:name="pledge" th:value="*{pledge}"/>
+                    </div>
+                    <div class="form-floating">
+                        <select id="planId" class="form-select" th:name="planId">
+                            <option th:each="plan : ${plans}" th:text="${plan.name}" th:value="${plan.id}" th:selected="${plan.id} == *{planId}"></option>
+                        </select>
+                        <label for="planId">Длительность</label>
+                    </div>
+
+                    <div class="d-flex justify-content-start ">
+                        <input id="allowedChildren" class="form-check-input" type="checkbox" th:checked="*{allowedChildren}" th:name="allowedChildren"/>
+                        <label class="fs-8 text-black" for="allowedChildren">Можно с детьми</label>
+                    </div>
+                    <div class="d-flex justify-content-start ">
+                        <input id="allowedAnimals" class="form-check-input" type="checkbox" th:checked="*{allowedAnimals}" th:name="allowedAnimals"/>
+                        <label class="fs-8 text-black" for="allowedAnimals">Можно с животными</label>
+                    </div>
+                </div>
+                <div class="form-floating">
+                    <select id="propertyTypeId" class="form-select" th:name="propertyTypeId">
+                        <option th:each="type : ${propertyTypes}" th:text="${type.name}" th:value="${type.id}" th:selected="${type.id} == *{propertyTypeId}"></option>
+                    </select>
+                    <label for="propertyTypeId">Тип объекта</label>
+                </div>
+                <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                    <label class="fs-8 text-black" for="area">Площадь</label>
+                    <input style="width: 90%" type="number" id="area" th:name="area" th:value="*{area}"/>
+                </div>
+                <div class="d-flex justify-content-center pt-2">
+                <input class="btn btn-outline-secondary" type="submit" value="Отправить">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

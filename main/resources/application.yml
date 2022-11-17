@@ -1,0 +1,6 @@
+spring:
+  thymeleaf:
+    cache: false
+app:
+  adminName: "1@1.ru"
+  adminPassword: "1"

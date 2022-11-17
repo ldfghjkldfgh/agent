@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <link th:href="@{/common.css}"
+          rel="stylesheet"
+          type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div th:insert="fragments/header :: header"></div>
+    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-start flex-column">
+            <div class="d-flex justify-content-center">
+                <p class="fs-3">Авторизация</p>
+            </div>
+            <form th:action="@{/login}" th:method="POST">
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Почта" name="usr"/>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Пароль" name="pwd"/>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type="submit" class="btn btn-outline-primary" value="Войти"/>
+                </div>
+                <div class="d-flex justify-content-center pt-2">
+                    <a th:href="@{/register}"><button type="button" class="btn btn-outline-success">Зарегистрироваться</button></a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

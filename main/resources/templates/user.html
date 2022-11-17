@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+    <link th:href="@{/common.css}"
+          rel="stylesheet"
+          type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+<div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-start flex-column">
+        <div class="d-flex justify-content-center">
+            Профиль
+        </div>
+        <form th:action="@{/user/{userId}(userId=${regForm.id})}" th:method="POST" th:object="${regForm}">
+            <input type="hidden" id="id" th:name="id" th:value="*{id}"/>
+            <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                <label class="fs-8 text-black" for="name">Имя</label>
+                <input type="text" id="name" th:name="name" th:value="*{name}"/>
+            </div>
+            <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                <label class="fs-8 text-black" for="email">Почта</label>
+                <input type="email" id="email" th:name="email" th:value="*{email}"/>
+            </div>
+            <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                <label class="fs-8 text-black" for="password">Новый пароль</label>
+                <input type="password" value="" id="password" th:name="password"/>
+            </div>
+            <div class="d-flex justify-content-start align-items-start flex-column ms-auto">
+                <label class="fs-8 text-black" for="confirmPassword">Подтверждение пароля</label>
+                <input type="password" value="" id="confirmPassword" th:name="confirmPassword"/>
+            </div>
+            <div class="d-flex justify-content-center pt-2">
+                <input class="btn btn-outline-secondary" type="submit" value="Сохранить">
+            </div>
+        </form>
+        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="d-flex justify-content-center pt-2">
+            <form th:method="POST" th:action="@{/user/{userId}/delete(userId=${regForm.id})}">
+                <input class="btn btn-outline-danger" type="submit" name="delete" value="Удалить"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
